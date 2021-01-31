@@ -39,6 +39,8 @@ let TriageType1;
 let TriageType2;
 let TriageNum1;
 let TriageNum2;
+let first = "";
+let second = "";
 
 let hasInitFormEvaluated = false;
 
@@ -83,6 +85,44 @@ function initform() {
     formValueChanger();
     //defining the formvalues dictionary
 
+    let formInputs = {
+      inputEmail: inputEmail.value,
+      age: age.checked,
+      HistoryFever: HistoryFever.checked,
+      conditions: conditions.checked,
+      cough: cough.checked,
+      fatigue: fatigue.checked,
+      history: history.checked,
+      contacts: Contacts.checked,
+      TriageVal1: first,
+      TriageVal2: first
+    };
+    fetch(
+      "https://api.endlessmedical.com/v1/dx/Analyze?SessionID=" +
+        sessionID +
+        "&NumberOfResults=10"
+    )
+      .then(function(response) {
+        console.log("same");
+        return response.json();
+      })
+      .then(function(data) {
+        let first =
+          Object.keys(data.Diseases[1])[0] +
+          ": " +
+          Object.values(data.Diseases[1])[0];
+        let second =
+          Object.keys(data.Diseases[0])[0] +
+          ": " +
+          Object.values(data.Diseases[0])[0];
+
+        formInputs.TriageVal1 = first;
+
+        formInputs.TriageVal2 = second;
+
+        console.log("triage" + formInputs.TriageVal1);
+      });
+
     let formValues = {
       Age: ageData,
       HistoryFever: feverData,
@@ -120,38 +160,40 @@ function initform() {
       );
     });
 
-    fetch(
-      "https://api.endlessmedical.com/v1/dx/Analyze?SessionID=" +
-        sessionID +
-        "&NumberOfResults=10"
-    )
-      .then(function(response) {
-        console.log("same");
-        return response.json();
-      })
-      .then(function(data) {
-        console.log(ageData);
+    console.log("after");
 
-        TriageType1 = Object.keys(data.Diseases[1])[0];
-        TriageType2 = Object.keys(data.Diseases[1])[1];
-        TriageNum1 = Object.values(data.Diseases[1])[0];
-        TriageNum2 = Object.values(data.Diseases[1])[1];
+    var ref = firebase.database().ref("info");
+    var newref = ref.push();
 
-        console.log("triage" + TriageType1);
-       
-      });
-     let formInputs = {
-          inputEmail: inputEmail.value,
-          age: age.checked,
-          HistoryFever: HistoryFever.checked,
-          conditions: conditions.checked,
-          cough: cough.checked,
-          fatigue: fatigue.checked,
-          history: history.checked,
-          contacts: Contacts.checked,
-          TriageVal1: "" + TriageType1 + TriageNum1,
-          TriageVal2: "" + TriageType2 + TriageNum2
-        };
+    //IMPORTANT CODE THAT U NEED -David
+
+    var matchingEmailId = ref
+      .orderByChild("inputEmail")
+      .equalTo(inputEmail.value);
+
+    var delayInMilliseconds = 2000; //1 second
+    setTimeout(function() {
+      matchingEmailId
+        .once("value")
+        .then(function(snapshot) {
+          if (snapshot.hasChildren()) {
+            return snapshot.forEach(function(child) {
+              child.ref.update(formInputs);
+            });
+          } else {
+            return snapshot.ref.push(formInputs);
+          }
+        })
+        .then(function() {
+          console.log("update/push done");
+          return alert("Data Successfully Sent to Realtime Database");
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      //your code to be executed after 1 second
+    }, delayInMilliseconds);
 
     //setting newref it to the push array generated
 
@@ -160,34 +202,6 @@ function initform() {
     // console.log("current:" + newref.key);
 
     // if (emailHist == newref.key) {
-
-    var ref = firebase.database().ref("info");
-    var newref = ref.push();
-
-    //IMPORTANT CODE THAT U NEED -David
-    
-    var matchingEmailId = ref
-      .orderByChild("inputEmail")
-      .equalTo(inputEmail.value);
-
-    matchingEmailId
-      .once("value")
-      .then(function(snapshot) {
-        if (snapshot.hasChildren()) {
-          return snapshot.forEach(function(child) {
-            child.ref.update(formInputs);
-          });
-        } else {
-          return snapshot.ref.push(formInputs);
-        }
-      })
-      .then(function() {
-        console.log("update/push done");
-        return alert("Data Successfully Sent to Realtime Database");
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
 
     //inside this .then
   });
