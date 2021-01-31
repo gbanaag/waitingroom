@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="utf-8" />
+    <meta
+      name="google-signin-client_id"
+      content="219142712065-uq2bssi0hrrp5mnah3prt5vppj14g9d9.apps.googleusercontent.com"
+    />
+
+    <title></title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="./google-signin.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+<!--     <script
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfm__x4zapKT5x0BybdQdGfouaE4ZvKiA&libraries=places&callback=initMap"
+    ></script> -->
+  </head>
+
+  <body>
+    <div id="login-menu">
+      <center>
+        <div id="menu-links">
+          <a href="index.html#home" class="links"><h3>Home</h3></a>
+          <a href="index.html#how" class="links"><h3>How it works</h3></a>
+          <a href="index.html#help" class="links"><h3>Fill Form</h3></a>
+          <a href="index.html#covid" class="links"><h3>COVID-19 Info</h3></a>
+          <a href="index.html#about" class="links"><h3>About</h3></a>
+          <a href="login.html" id="loginout" class="button"> Account </a>
+        </div>
+      </center>
+    </div>
+
+    <button id="signinwithgoogle" onclick="googleSignin()">
+      <img
+        style="width: 20vw;"
+        src="https://cdn.glitch.com/69ff26aa-08c6-4fae-83af-89871c35f44e%2Fbtn_google_signin_light_normal_web%402x.png?v=1611700505770"
+      />
+    </button>
+
+    <!--     <center> -->
+    <div id="form-data">
+      <form class="form-inline d-flex">
+        <input
+          type="email"
+          class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+          id="inputEmail"
+          placeholder="Enter email address..."
+        />
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="age"
+          />
+          <label>Older than 65</label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="fever"
+          />
+          <label> Fever </label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="conditions"
+          />
+          <label> Underlying health conditions </label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="cough"
+          />
+          <label> Dry cough </label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="fatigue"
+          />
+          <label> Fatigue </label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="history"
+          />
+          <label> Had past respiratory illnesses </label>
+        </li>
+
+        <li class="form-row">
+          <input
+            type="checkbox"
+            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+            id="contact"
+          />
+          <label> Contacted someone with COVID-19 </label>
+        </li>
+
+        <button type="submit" class="btn btn-primary mx-auto">
+          Update data
+        </button>
+      </form>
+    </div>
+    <!--     </center>
+ -->
+    <div id="login">
+      <center>
+        <br />
+
+        <button
+          id="signout"
+          style="width: 20vw;"
+          class="button"
+          onclick="googleSignout()"
+        >
+          Sign out
+        </button>
+      </center>
+    </div>
+  </body>
+</html>
