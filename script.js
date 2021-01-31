@@ -1,14 +1,7 @@
 //nothing here lol
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvSmFgG6v6yUJPvTsgu-tjBb_40yUe8F0",
-  authDomain: "waitingroom-6824b.firebaseapp.com",
-  databaseURL: "https://waitingroom-6824b-default-rtdb.firebaseio.com",
-  projectId: "waitingroom-6824b",
-  storageBucket: "waitingroom-6824b.appspot.com",
-  messagingSenderId: "365270418030",
-  appId: "1:365270418030:web:f92ab58e1796cebcf81c7f",
-  measurementId: "G-F35LZHZW7P"
+ // config here
 };
 let input;
 ("use strict");
